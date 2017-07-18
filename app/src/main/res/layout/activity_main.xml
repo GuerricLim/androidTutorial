@@ -5,140 +5,192 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.tutorialapp.MainActivity">
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
- <!--   <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        android:id="@+id/textInitial"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />-->
-  <!--  -->
+        <RelativeLayout
+            android:id="@+id/form_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Service/Broadcast Receivers "
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_centerHorizontal="true" />
 
-   <!-- <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_below="@+id/button3"
-        android:layout_alignRight="@+id/button3"
-        android:layout_alignEnd="@+id/button3" />-->
+           <Button
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/serviceStart"
+               android:text="Start Services"
+               android:onClick="startService"
+               android:layout_below="@+id/textView2"
+               android:layout_centerHorizontal="true" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Content provider"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="30dp" />
+           <Button
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Stop Services"
+               android:id="@+id/serviceEnd"
+               android:onClick="stopService"
+               android:layout_below="@+id/serviceStart"
+               android:layout_alignLeft="@+id/serviceStart"
+               android:layout_alignStart="@+id/serviceStart"
+               android:layout_alignRight="@+id/serviceStart"
+               android:layout_alignEnd="@+id/serviceStart" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tutorials point "
-        android:textColor="#ff87ff09"
-        android:textSize="30dp"
-        android:layout_below="@+id/textView1"
-        android:layout_centerHorizontal="true" />
+           <Button
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/broadcast"
+               android:text="Broadcast Intent"
+               android:onClick="broadcastIntent"
+               android:layout_below="@+id/serviceEnd"
+               android:layout_centerHorizontal="true"
+               android:layout_alignLeft="@+id/serviceStart"
+               android:layout_alignStart="@+id/serviceStart"
+               android:layout_alignRight="@+id/serviceStart"
+               android:layout_alignEnd="@+id/serviceStart"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageButton"
-        android:layout_below="@+id/textView2"
-        android:layout_centerHorizontal="true" />
+            <TextView
+                android:id="@+id/titleContent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Content Provider Tutorial"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_below="@+id/broadcast"
+                android:layout_centerHorizontal="true" />
 
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText2"
+                android:layout_alignLeft="@+id/titleContent"
+                android:layout_alignStart="@+id/titleContent"
+                android:layout_alignRight="@+id/titleContent"
+                android:layout_alignEnd="@+id/titleContent"
+                android:layout_below="@+id/titleContent"
+                android:hint="Name"
+                android:textColorHint="@android:color/holo_blue_light" />
 
-   <Button
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:id="@+id/serviceStart"
-       android:text="Start Services"
-       android:onClick="startService"
-       android:layout_below="@+id/imageButton"
-       android:layout_centerHorizontal="true" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText3"
+                android:layout_below="@+id/editText2"
+                android:layout_alignLeft="@+id/editText2"
+                android:layout_alignStart="@+id/editText2"
+                android:layout_alignRight="@+id/editText2"
+                android:layout_alignEnd="@+id/editText2"
+                android:hint="Grade"
+                android:textColorHint="@android:color/holo_blue_bright" />
 
-   <Button
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:text="Stop Services"
-       android:id="@+id/serviceEnd"
-       android:onClick="stopService"
-       android:layout_below="@+id/serviceStart"
-       android:layout_alignLeft="@+id/button2"
-       android:layout_alignStart="@+id/button2"
-       android:layout_alignRight="@+id/button2"
-       android:layout_alignEnd="@+id/button2" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/button2"
+                android:text="Add Name"
+                android:layout_below="@+id/editText3"
+                android:layout_alignRight="@+id/textView2"
+                android:layout_alignEnd="@+id/textView2"
+                android:layout_alignLeft="@+id/textView2"
+                android:layout_alignStart="@+id/textView2"
+                android:onClick="onClickAddName"/>
 
-   <Button
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:id="@+id/broadcast"
-       android:text="Broadcast Intent"
-       android:onClick="broadcastIntent"
-       android:layout_below="@+id/serviceEnd"
-       android:layout_centerHorizontal="true"
-       android:layout_alignLeft="@+id/button"
-       android:layout_alignStart="@+id/button"
-       android:layout_alignRight="@+id/button"
-       android:layout_alignEnd="@+id/button"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Retrieve student"
+                android:id="@+id/button"
+                android:layout_below="@+id/button2"
+                android:layout_alignRight="@+id/button2"
+                android:layout_alignEnd="@+id/button2"
+                android:layout_alignLeft="@+id/button2"
+                android:layout_alignStart="@+id/button2"
+                android:onClick="onClickRetrieveStudents"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete student"
+                android:id="@+id/buttonDelete"
+                android:layout_below="@+id/button"
+                android:layout_alignRight="@+id/button"
+                android:layout_alignEnd="@+id/button"
+                android:layout_alignLeft="@+id/button2"
+                android:layout_alignStart="@+id/button2"
+                android:onClick="onClickDeleteAll"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button2"
-        android:text="Add Name"
-        android:layout_below="@+id/editText3"
-        android:layout_alignRight="@+id/textView2"
-        android:layout_alignEnd="@+id/textView2"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2"
-        android:onClick="onClickAddName"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Test Font Size (UI Controls)"
+                android:id="@+id/textFontSize"
+                android:layout_below="@+id/buttonDelete"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                android:layout_centerHorizontal="true"
+               />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText"
-        android:layout_below="@+id/broadcast"
-        android:layout_alignRight="@+id/imageButton"
-        android:layout_alignEnd="@+id/imageButton" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "Sample Text for Font Size"
+                android:id="@+id/sampleTextFontSize"
+                android:layout_below = "@+id/textFontSize"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:layout_centerHorizontal="true"
+                />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText2"
-        android:layout_alignTop="@+id/editText"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_alignStart="@+id/textView1"
-        android:layout_alignRight="@+id/textView1"
-        android:layout_alignEnd="@+id/textView1"
-        android:hint="Name"
-        android:textColorHint="@android:color/holo_blue_light" />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "Decrease Font Size"
+                android:layout_alignRight="@+id/buttonDelete"
+                android:layout_alignEnd="@+id/buttonDelete"
+                android:layout_alignLeft="@+id/buttonDelete"
+                android:layout_alignStart="@+id/buttonDelete"
+                android:id = "@+id/buttonDecreaseFontSize"
+                android:layout_below="@+id/sampleTextFontSize"
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText3"
-        android:layout_below="@+id/editText"
-        android:layout_alignLeft="@+id/editText2"
-        android:layout_alignStart="@+id/editText2"
-        android:layout_alignRight="@+id/editText2"
-        android:layout_alignEnd="@+id/editText2"
-        android:hint="Grade"
-        android:textColorHint="@android:color/holo_blue_bright" />
+                />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Retrive student"
-        android:id="@+id/button"
-        android:layout_below="@+id/button2"
-        android:layout_alignRight="@+id/editText3"
-        android:layout_alignEnd="@+id/editText3"
-        android:layout_alignLeft="@+id/button2"
-        android:layout_alignStart="@+id/button2"
-        android:onClick="onClickRetrieveStudents"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "Increase Font Size"
+                android:layout_alignRight="@+id/buttonDelete"
+                android:layout_alignEnd="@+id/buttonDelete"
+                android:layout_alignLeft="@+id/buttonDelete"
+                android:layout_alignStart="@+id/buttonDelete"
+                android:id = "@+id/buttonIncreaseFontSize"
+                android:layout_below="@+id/buttonDecreaseFontSize"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "Select Font Size:"
+                android:id="@+id/headerDropDown"
+                android:layout_below = "@+id/buttonIncreaseFontSize"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:layout_centerHorizontal="true"
+                />
+            <Spinner
+                android:id="@+id/spinnerFontSize"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/headerDropDown"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+    </ScrollView>
 
 
 </RelativeLayout>
