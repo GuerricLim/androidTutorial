@@ -20,6 +20,7 @@
                 android:text="Service/Broadcast Receivers "
                 android:textColor="#000000"
                 android:textSize="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true" />
 
            <Button
@@ -64,7 +65,8 @@
                 android:textColor="#000000"
                 android:textSize="20dp"
                 android:layout_below="@+id/broadcast"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"/>
 
             <EditText
                 android:layout_width="wrap_content"
@@ -133,6 +135,7 @@
                 android:layout_below="@+id/buttonDelete"
                 android:textColor="#000000"
                 android:textSize="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_centerHorizontal="true"
                />
 
@@ -188,6 +191,62 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/headerDropDown"
                 android:layout_centerHorizontal="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "AutoComplete Text View Example"
+                android:id="@+id/textAutoComplete"
+                android:layout_below = "@+id/spinnerFontSize"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                />
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteTextView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textAutoComplete"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                android:ems="10" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "Date Picker Example"
+                android:id="@+id/textDatePicker"
+                android:layout_below = "@+id/autoCompleteTextView1"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                />
+
+            <Button
+                android:id="@+id/buttonSetDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/textDatePicker"
+                android:onClick="setDate"
+                android:text="Set Date" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "Selected Date"
+                android:id="@+id/textSelectedDate"
+                android:layout_below = "@+id/buttonSetDate"
+                android:textColor="#000000"
+                android:textSize="25sp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="5dp"
+                />
+
 
         </RelativeLayout>
     </ScrollView>

@@ -1,8 +1,13 @@
 package com.tutorialapp;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.content.Intent;
 
@@ -19,19 +24,29 @@ import android.database.Cursor;
 import android.view.Menu;
 import android.view.View;
 
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     Button decreaseFont, increaseFont;
+    AutoCompleteTextView autoComplete;
+
+    //Date Picker Example
+    Button btnDatePicker;
+    private static TextView dateView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +108,60 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // attaching data adapter to spinner
         fontSizeSpinner.setAdapter(dataAdapter);
 
+        //AutoComplete Example
+
+        String[] arr = { "Paries,France", "PA,United States","Parana,Brazil",
+                "Padua,Italy", "Pasadena,CA,United States"};
+
+        autoComplete = (AutoCompleteTextView)
+                findViewById(R.id.autoCompleteTextView1);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (this,android.R.layout.select_dialog_item, arr);
+
+        autoComplete.setThreshold(2);
+        autoComplete.setAdapter(adapter);
+
+        //Date Picker Example
+        dateView = (TextView) findViewById(R.id.textSelectedDate);
+        btnDatePicker = (Button) findViewById(R.id.buttonSetDate);
+
+        btnDatePicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
     }
+
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
+            dialog.getDatePicker().setMaxDate(c.getTimeInMillis());
+            return  dialog;
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            dateView.setText(new StringBuilder().append(day).append("/")
+                    .append(month).append("/").append(year));
+        }
+    }
+
+
+  /*  private void showDate(int year, int month, int day) {
+        dateView.setText(new StringBuilder().append(day).append("/")
+                .append(month).append("/").append(year));
+    }*/
+
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         // On selecting a spinner item
