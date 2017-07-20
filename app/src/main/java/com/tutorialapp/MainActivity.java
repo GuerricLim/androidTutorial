@@ -1,11 +1,21 @@
 package com.tutorialapp;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.test.mock.MockPackageManager;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,17 +45,27 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    Button decreaseFont, increaseFont;
+    Button decreaseFont, increaseFont, sendNotification, btnShowLocation;
     AutoCompleteTextView autoComplete;
+    private static final int REQUEST_CODE_PERMISSION = 2;
+    String mPermission = Manifest.permission.ACCESS_FINE_LOCATION;
+    // GPSTracker class
+    GPSTracker gps;
 
     //Date Picker Example
     Button btnDatePicker;
     private static TextView dateView;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +85,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 txtView.setTextSize(TypedValue.COMPLEX_UNIT_PX,sizeVar);
             }
         });
-
+        decreaseFont.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Toast.makeText(getApplicationContext(), "On Long Click", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
         increaseFont.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -133,8 +159,167 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 newFragment.show(getSupportFragmentManager(), "datePicker");
             }
         });
+
+        //Notification Example
+        sendNotification = (Button)findViewById(R.id.buttonSendNotification);
+        sendNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                displayNotification();
+            }
+        });
+
+        PackageManager packageManager = getPackageManager();
+        //Location
+        try {
+            if (ActivityCompat.checkSelfPermission(this, mPermission)
+                    != packageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this, new String[]{mPermission},
+                        REQUEST_CODE_PERMISSION);
+
+                // If any permission above not allowed by user, this condition will
+                //execute every time, else your else part will work
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        btnShowLocation = (Button) findViewById(R.id.buttonGetLocation);
+
+        // show location button click event
+        btnShowLocation.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                // create class object
+                gps = new GPSTracker(MainActivity.this);
+
+                // check if GPS enabled
+                if(gps.canGetLocation()){
+
+                    double latitude = gps.getLatitude();
+                    double longitude = gps.getLongitude();
+
+                    // \n is for new line
+                    Toast.makeText(getApplicationContext(), "Your Location is - \nLat: "
+                            + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
+                }else{
+                    // can't get location
+                    // GPS or Network is not enabled
+                    // Ask user to enable GPS/network in settings
+                    gps.showSettingsAlert();
+                }
+
+            }
+        });
+
+        //Send Email
+
+        Button btnSendEmail = (Button) findViewById(R.id.buttonSendEmail);
+
+        btnSendEmail.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                sendEmail();
+            }
+        });
+
     }
 
+    protected void sendEmail() {
+        Log.i("Send email", "");
+        String[] TO = {""};
+        String[] CC = {""};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_CC, CC);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public int createID(){
+        Date now = new Date();
+        int id = Integer.parseInt(new SimpleDateFormat("ddHHmmss",  Locale.US).format(now));
+        return id;
+    }
+
+    private void addNotification() {
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.mipmap.my_nine_patch)
+                        .setContentTitle("Notifications Example")
+                        .setContentText("This is a test notification");
+
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+
+        // Add as notification
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(createID(), builder.build());
+    }
+    protected void displayNotification() {
+        Log.i("Start", "notification");
+        int numMessages = 0;
+   /* Invoking the default notification service */
+        NotificationCompat.Builder  mBuilder = new NotificationCompat.Builder(this);
+
+        mBuilder.setContentTitle("New Message");
+        mBuilder.setContentText("You've received new message.");
+        mBuilder.setTicker("New Message Alert!");
+        mBuilder.setSmallIcon(R.mipmap.my_nine_patch);
+
+   /* Increase notification number every time a new notification arrives */
+        mBuilder.setNumber(++numMessages);
+
+   /* Add Big View Specific Configuration */
+        NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
+
+        String[] events = new String[6];
+        events[0] = new String("This is first line....");
+        events[1] = new String("This is second line...");
+        events[2] = new String("This is third line...");
+        events[3] = new String("This is 4th line...");
+        events[4] = new String("This is 5th line...");
+        events[5] = new String("This is 6th line...");
+
+        // Sets a title for the Inbox style big view
+        inboxStyle.setBigContentTitle("Big Title Details:");
+
+        // Moves events into the big view
+        for (int i=0; i < events.length; i++) {
+            inboxStyle.addLine(events[i]);
+        }
+
+        mBuilder.setStyle(inboxStyle);
+
+   /* Creates an explicit intent for an Activity in your app */
+        Intent resultIntent = new Intent(this, NotificationView.class);
+
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addParentStack(NotificationView.class);
+
+   /* Adds the Intent that starts the Activity to the top of the stack */
+        stackBuilder.addNextIntent(resultIntent);
+        PendingIntent resultPendingIntent =stackBuilder.getPendingIntent(0,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        mBuilder.setContentIntent(resultPendingIntent);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+   /* notificationID allows you to update the notification later on. */
+        mNotificationManager.notify(createID(), mBuilder.build());
+    }
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
@@ -146,7 +331,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
             DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
-            dialog.getDatePicker().setMaxDate(c.getTimeInMillis());
+            /*dialog.getDatePicker().setMaxDate(c.getTimeInMillis());*/
             return  dialog;
         }
 

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.guerriclim.tutorialapp">
-
+    <uses-permission android:name = "android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name = "android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -27,6 +28,14 @@
 
         <provider android:name="com.tutorialapp.StudentsProvider"
             android:authorities="com.tutorialapp.StudentsProvider"/>
+
+        <activity android:name="com.tutorialapp.NotificationView"
+            android:label="Details of notification"
+            android:parentActivityName="com.tutorialapp.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.tutorialapp.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
