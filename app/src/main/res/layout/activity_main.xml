@@ -321,6 +321,31 @@
                 android:layout_below="@+id/textEmail"
 
                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Send SMS"
+                android:id="@+id/textSMS"
+                android:layout_below="@+id/buttonSendEmail"
+                android:textColor="#000000"
+                android:textSize="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "Send SMS"
+                android:layout_alignRight="@+id/buttonDelete"
+                android:layout_alignEnd="@+id/buttonDelete"
+                android:layout_alignLeft="@+id/buttonDelete"
+                android:layout_alignStart="@+id/buttonDelete"
+                android:id = "@+id/buttonSendSMS"
+                android:layout_below="@+id/textSMS"
+
+                />
         </RelativeLayout>
     </ScrollView>
 

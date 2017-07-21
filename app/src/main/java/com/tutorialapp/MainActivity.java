@@ -224,8 +224,34 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             }
         });
 
-    }
+        //Send SMS
 
+        Button btnSendSMS = (Button) findViewById(R.id.buttonSendSMS);
+        btnSendSMS.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view)
+            {
+                sendSMS();
+            }
+        });
+
+    }
+    protected void sendSMS() {
+        Log.i("Send SMS", "");
+        Uri uri = Uri.parse("smsto:0800000123");
+        Intent it = new Intent(Intent.ACTION_SENDTO, uri);
+        it.putExtra("sms_body", "The SMS text");
+
+
+
+        try {
+            startActivity(it);
+            finish();
+            Log.i("Finished sending SMS...", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this,
+                    ex.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
     protected void sendEmail() {
         Log.i("Send email", "");
         String[] TO = {""};
